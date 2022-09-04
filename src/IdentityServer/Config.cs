@@ -1,6 +1,8 @@
 ﻿using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
+using IdentityModel;
 using IdentityServerAspNetIdentity.Models;
+using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
 namespace IdentityServerAspNetIdentity;
@@ -12,13 +14,20 @@ public static class Config
         {
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
-            new IdentityResource("color", new [] { "favorite_color" })
+            new IdentityResource("color", new [] { "favorite_color" }),
+            new IdentityResource("custom.profile", userClaims: new []
+            {
+                JwtClaimTypes.Name,
+                JwtClaimTypes.Email,
+                JwtClaimTypes.Role,
+                "offline_access",
+            }),
         };
 
     public static IEnumerable<ApiScope> ApiScopes =>
         new List<ApiScope>
         {
-            new ApiScope("api1", "My API")
+            new ApiScope("api1", "My API"),
         };
 
     public static IEnumerable<Client> Clients =>
@@ -77,7 +86,9 @@ public static class Config
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
-                    "api1"
+                    "api1",
+                    "custom.profile",
+                    "color",
                 }
             }
         };
@@ -86,16 +97,46 @@ public static class Config
         new List<ApplicationUser>
         {
             new ApplicationUser(){
+                Id = "1",
                 UserName = "alice",
                 Email = "AliceSmith@email.com",
                 EmailConfirmed = true,
                 FavoriteColor = "green",
             },
             new ApplicationUser(){
+                Id = "2",
                 UserName = "bob",
                 Email = "BobSmith@email.com",
                 EmailConfirmed = true,
                 FavoriteColor = "red",
+            }
+        };
+
+    public static IEnumerable<IdentityRole> Roles =>
+        new List<IdentityRole>
+        {
+            new IdentityRole(){
+                Id = "1",
+                Name = "Administrador"
+            },
+            new IdentityRole(){
+                Id = "2",
+                Name = "Operador"
+            }
+        };
+
+    public static IEnumerable<IdentityUserRole<string>> UserRoles =>
+        new List<IdentityUserRole<string>>
+        {
+            new IdentityUserRole<string>()
+            {
+                RoleId = "2",
+                UserId = "1"
+            },
+            new IdentityUserRole<string>()
+            {
+                RoleId = "1",
+                UserId = "2"
             }
         };
 }

@@ -1,6 +1,7 @@
 using Duende.IdentityServer;
 using Duende.IdentityServer.EntityFramework.DbContexts;
 using Duende.IdentityServer.EntityFramework.Mappers;
+using Duende.IdentityServer.Models;
 using IdentityModel;
 using IdentityServerAspNetIdentity.Data;
 using IdentityServerAspNetIdentity.Models;
@@ -148,6 +149,22 @@ internal static class HostingExtensions
                     {
                         throw new Exception(result.Errors.First().Description);
                     }
+                }
+            }
+
+            if (!context.Roles.Any())
+            {
+                foreach (var role in Config.Roles)
+                {
+                    context.Roles.Add(role);
+                }
+            }
+
+            if (!context.UserRoles.Any())
+            {
+                foreach (var userRole in Config.UserRoles)
+                {
+                    context.UserRoles.Add(userRole);
                 }
             }
 
