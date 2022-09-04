@@ -93,6 +93,8 @@ app.UseEndpoints(endpoints =>
         .RequireAccessToken(Duende.Bff.TokenType.User);
 });
 
+app.MapFallbackToFile("index.html"); ;
+
 app.Run();
 
 [Authorize]
