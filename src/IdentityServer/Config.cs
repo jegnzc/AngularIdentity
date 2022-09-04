@@ -14,13 +14,13 @@ public static class Config
         {
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
+            new IdentityResource("offline_access", new[] {"offline_access"}),
             new IdentityResource("color", new [] { "favorite_color" }),
             new IdentityResource("custom.profile", userClaims: new []
             {
                 JwtClaimTypes.Name,
                 JwtClaimTypes.Email,
-                JwtClaimTypes.Role,
-                "offline_access",
+                JwtClaimTypes.Role
             }),
         };
 
@@ -86,10 +86,12 @@ public static class Config
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
+                    IdentityServerConstants.StandardScopes.OfflineAccess,
                     "api1",
                     "custom.profile",
                     "color",
-                }
+                },
+                AllowOfflineAccess = true
             }
         };
 

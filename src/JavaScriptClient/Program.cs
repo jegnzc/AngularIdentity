@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
-//builder.Services.AddAuthorization();
+builder.Services.AddAuthorization();
 
 builder.Services
     .AddBff()
@@ -43,6 +43,7 @@ builder.Services
         options.Scope.Add("profile");
         options.Scope.Add("api1");
         options.Scope.Add("color");
+        options.Scope.Add("offline_access");
         options.Scope.Add("custom.profile");
 
         options.Scope.Add("color");
@@ -50,6 +51,7 @@ builder.Services
 
         options.GetClaimsFromUserInfoEndpoint = true;
         options.ClaimActions.MapUniqueJsonKey("favorite_color", "favorite_color");
+        options.ClaimActions.MapUniqueJsonKey("offline_access", "offline_access");
         options.ClaimActions.MapUniqueJsonKey("role", "role");
 
         options.TokenValidationParameters = new()
