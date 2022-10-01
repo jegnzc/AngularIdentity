@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [Authorize]
-[Route("test/")]
+[Route("test")]
 public class IdentityController : ControllerBase
 {
     [HttpGet]
